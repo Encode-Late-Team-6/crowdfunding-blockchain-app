@@ -1,15 +1,25 @@
-import React, { useContext, createContext } from 'react';
+import React, { useContext, createContext } from "react";
 
-import { useAddress, useContract, useMetamask, useContractWrite } from '@thirdweb-dev/react';
-import { ethers } from 'ethers';
-import { EditionMetadataWithOwnerOutputSchema } from '@thirdweb-dev/sdk';
+import {
+  useAddress,
+  useContract,
+  useMetamask,
+  useContractWrite,
+} from "@thirdweb-dev/react";
+import { ethers } from "ethers";
+import { EditionMetadataWithOwnerOutputSchema } from "@thirdweb-dev/sdk";
 
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-  const { contract } = useContract('0xA9B981fd48b2A9Dd9075B088d05393d80479b2b0');
-  
-  const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
+  const { contract } = useContract(
+    "0x15e361ED55dB122794Dc810A5f025ac0d0ECb371"
+  );
+
+  const { mutateAsync: createCampaign } = useContractWrite(
+    contract,
+    "createCampaign"
+  );
 
   const address = useAddress();
   const connect = useMetamask();
@@ -22,17 +32,17 @@ export const StateContextProvider = ({ children }) => {
         form.description, // description
         form.target,
         new Date(form.deadline).getTime(), // deadline,
-        form.image
-      ])
+        form.image,
+      ]);
 
-      console.log("contract call success", data)
+      console.log("contract call success", data);
     } catch (error) {
-      console.log("contract call failure", error)
+      console.log("contract call failure", error);
     }
-  }
+  };
 
   const getCampaigns = async () => {
-    const campaigns = await contract.call('getCampaigns');
+    const campaigns = await contract.call("getCampaigns");
 
     const parsedCampaings = campaigns.map((campaign, i) => ({
       owner: campaign.owner,
@@ -40,48 +50,53 @@ export const StateContextProvider = ({ children }) => {
       description: campaign.description,
       target: ethers.utils.formatEther(campaign.target.toString()),
       deadline: campaign.deadline.toNumber(),
-      amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
+      amountCollected: ethers.utils.formatEther(
+        campaign.amountCollected.toString()
+      ),
       image: campaign.image,
-      pId: i
+      pId: i,
     }));
 
     return parsedCampaings;
-  }
+  };
 
   const getUserCampaigns = async () => {
     const allCampaigns = await getCampaigns();
 
-    const filteredCampaigns = allCampaigns.filter((campaign) => campaign.owner === address);
+    const filteredCampaigns = allCampaigns.filter(
+      (campaign) => campaign.owner === address
+    );
 
     return filteredCampaigns;
-  }
+  };
 
   const donate = async (pId, amount) => {
-    const data = await contract.call('donateToCampaign', pId, { value: ethers.utils.parseEther(amount)});
+    const data = await contract.call("donateToCampaign", pId, {
+      value: ethers.utils.parseEther(amount),
+    });
 
     return data;
-  }
+  };
 
   const getDonations = async (pId) => {
-    const donations = await contract.call('getDonators', pId);
+    const donations = await contract.call("getDonators", pId);
     const numberOfDonations = donations[0].length;
 
     const parsedDonations = [];
 
-    for(let i = 0; i < numberOfDonations; i++) {
+    for (let i = 0; i < numberOfDonations; i++) {
       parsedDonations.push({
         donator: donations[0][i],
-        donation: ethers.utils.formatEther(donations[1][i].toString())
-      })
+        donation: ethers.utils.formatEther(donations[1][i].toString()),
+      });
     }
 
     return parsedDonations;
-  }
-
+  };
 
   return (
     <StateContext.Provider
-      value={{ 
+      value={{
         address,
         contract,
         connect,
@@ -89,12 +104,12 @@ export const StateContextProvider = ({ children }) => {
         getCampaigns,
         getUserCampaigns,
         donate,
-        getDonations
+        getDonations,
       }}
     >
       {children}
     </StateContext.Provider>
-  )
-}
+  );
+};
 
 export const useStateContext = () => useContext(StateContext);
