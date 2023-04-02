@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useStateContext } from "../context";
 
 import FundCard from './FundCard';
 import { loader } from '../assets';
 
 const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
+  const { searchFilterWord } = useStateContext();
   const navigate = useNavigate();
 
   const handleNavigate = (campaign) => {
@@ -26,11 +28,15 @@ const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
           </p>
         )}
 
-        {!isLoading && campaigns.length > 0 && campaigns.map((campaign) => <FundCard 
-          key={campaign.id}
-          {...campaign}
-          handleClick={() => handleNavigate(campaign)}
-        />)}
+        {!isLoading && campaigns.length > 0 && campaigns
+        .filter((campaign) => campaign.title.includes(searchFilterWord))
+        .map((campaign, index) => (
+          <FundCard 
+            key={index}
+            {...campaign}
+            handleClick={() => handleNavigate(campaign)}
+          />
+        ))}
       </div>
     </div>
   )
