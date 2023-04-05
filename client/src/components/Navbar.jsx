@@ -12,10 +12,10 @@ const Navbar = () => {
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const [campaignName, setCampaignName] = useState("");
   const { connect, address, setSearchFilterWord } = useStateContext();
-  
+
   const handleSearch = () => {
     setSearchFilterWord(campaignName);
-  }
+  };
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
@@ -28,8 +28,10 @@ const Navbar = () => {
           onChange={(e) => setCampaignName(e.target.value)}
         />
 
-        <div className="w-[72px] h-full rounded-[20px] bg-[#4acd8d] flex justify-center items-center cursor-pointer"
-            onClick={handleSearch}>
+        <div
+          className="w-[72px] h-full rounded-[20px] bg-[#4acd8d] flex justify-center items-center cursor-pointer"
+          onClick={handleSearch}
+        >
           <img
             src={search}
             alt="search"
@@ -42,7 +44,7 @@ const Navbar = () => {
         <CustomButton
           btnType="button"
           title={address ? "Create a campaign" : "Connect"}
-          styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
+          styles={address ? "bg-[#a21dc0]" : "bg-[#a21dc0]"}
           handleClick={() => {
             if (address) navigate("create-campaign");
             else connect();

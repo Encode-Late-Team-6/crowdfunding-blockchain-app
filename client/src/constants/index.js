@@ -17,18 +17,18 @@ export const navlinks = [
     imgUrl: createCampaign,
     link: "/create-campaign",
   },
-  {
-    name: "payment",
-    imgUrl: payment,
-    link: "/",
-    disabled: true,
-  },
-  {
-    name: "withdraw",
-    imgUrl: withdraw,
-    link: "/",
-    disabled: true,
-  },
+  // {
+  //   name: "payment",
+  //   imgUrl: payment,
+  //   link: "/",
+  //   disabled: true,
+  // },
+  // {
+  //   name: "withdraw",
+  //   imgUrl: withdraw,
+  //   link: "/",
+  //   disabled: true,
+  // },
   {
     name: "profile",
     imgUrl: profile,

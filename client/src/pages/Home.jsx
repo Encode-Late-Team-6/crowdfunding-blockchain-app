@@ -25,9 +25,11 @@ const Home = () => {
       <header>
         <div className="py-8">
           <h1 className="text-white text-6xl mb-8">
-            The Crypto Crowdfunding Revolution
+            The Crypto{" "}
+            <span className="text-[#a21dc0] font-bold">Crowdfunding&nbsp;</span>
+            Revolution
           </h1>
-          <h2 className="text-white text-2xl mb-8">
+          <h2 className="text-white text-2xl mb-8 tracking-wider font-light">
             Raise money for what matters to you most. Donate to support others.{" "}
           </h2>
         </div>
