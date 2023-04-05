@@ -5,6 +5,7 @@ import {
   useContract,
   useMetamask,
   useContractWrite,
+  useDisconnect,
 } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { EditionMetadataWithOwnerOutputSchema } from "@thirdweb-dev/sdk";
@@ -12,6 +13,8 @@ import { EditionMetadataWithOwnerOutputSchema } from "@thirdweb-dev/sdk";
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
+  const [searchFilterWord, setSearchFilterWord] = React.useState("");
+
   const { contract } = useContract(
     "0x15e361ED55dB122794Dc810A5f025ac0d0ECb371"
   );
@@ -23,6 +26,7 @@ export const StateContextProvider = ({ children }) => {
 
   const address = useAddress();
   const connect = useMetamask();
+  const disconnect = useDisconnect();
 
   const publishCampaign = async (form) => {
     try {
@@ -100,11 +104,14 @@ export const StateContextProvider = ({ children }) => {
         address,
         contract,
         connect,
+        disconnect,
         createCampaign: publishCampaign,
         getCampaigns,
         getUserCampaigns,
         donate,
         getDonations,
+        searchFilterWord,
+        setSearchFilterWord,
       }}
     >
       {children}
