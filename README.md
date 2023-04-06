@@ -1,6 +1,6 @@
 # Crowdfunding App Built with Blockchain Technology
 
-This is the final project of team 6 from the Encode Solidity Bootcamp (March 2023)
+This is the final project of team 6 from the Encode Solidity Bootcamp (March 2023). You can view the live app here: https://crowdfunding-tau-three.vercel.app/
 
 ### Smart Contract Part (Important notes)
 
